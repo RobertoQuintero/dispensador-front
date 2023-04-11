@@ -1,0 +1,234 @@
+body{
+  background-color: #eee;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+.full-container__products{
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem ;
+}
+
+.user-info{
+  margin: 0 auto;
+  max-width: 1000px;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  box-shadow: 2px 5px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.user-info__data p{
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+.price{
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #9b59b6;
+
+}
+.date{
+  margin-bottom: 1rem;
+}
+.user-info__buttons{
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.button{
+  flex-basis: 48%;
+  padding: 0.5rem .7rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 10px;
+  font-size: .7rem;
+  font-weight: bold;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+.morado{
+  border: .5px solid #9b59b6;
+  color: #9b59b6;
+  transition: .3s;
+}
+.morado:hover{
+  border: .5px solid #9b59b6;
+  color: #fff;
+  background-color: #9b59b6;
+}
+.cancelar{
+  color: tomato;
+  border: .5px solid tomato;
+  transition: .3s;
+}
+.cancelar:hover{
+  color: #fff;
+  border: .5px solid tomato;
+  background-color: tomato;
+}
+
+.products-grid{
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  padding-bottom: 2rem;
+  justify-items: center;
+}
+
+.products-grid__item{
+  width: 100%;
+  max-width: 400px;
+  height: 350px;
+  cursor: pointer;
+  background-color: #fff;
+  position: relative;
+}
+.products-grid__item-img{
+  height: 70%;
+  min-width: 300px;
+  position: relative;
+}
+
+.products-grid__item-description{
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+  color: #9b59b6;
+}
+.products-grid__item-name{
+  font-weight: bold;
+  text-align: center;
+}
+.products-grid__item-exist{
+  font-size: 1.2rem;
+  text-align: right;
+  padding-right: .5rem;
+}
+.products-grid__item-price{
+  position: absolute;
+  z-index: 10;
+  width: 120px;
+  height: 60px;
+  background-color: #9b59b6;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  border-bottom-left-radius: 20px;
+}
+
+.modal-background{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-confirmation{
+  width: 300px;
+  height: 400px;
+  background-color: #fff;
+  position: relative;
+  z-index: 10000;
+  border-radius: 20px;
+  padding: 1.5rem;
+  animation: aparecer .3s .2s ease-in backwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.modal-confirmation__buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.modal-confirmation__buttons button{
+  margin-bottom: 0;
+}
+.modal-confirmation__buttons button:disabled{
+  border: 1px solid grey;
+  color: grey;
+  background-color: #fff;
+}
+.modal-confirmation__title{
+  color: #9b59b6;
+  font-weight: 700;
+  text-align: center;
+}
+.modal-confirmation__img{
+  border-radius: 10px;
+  margin: auto;
+  height: 200px;
+  width: 70%;
+  margin-bottom: .5rem;
+  margin-top: .5rem;
+}
+
+.modal-confirmation__name{
+  text-align: center;
+}
+.modal-confirmation__price{
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: .5rem;
+  color: #9b59b6;
+}
+
+@keyframes aparecer {
+  0%{
+    opacity: 0;
+    transform: scale(.2);
+  }
+  50%{
+    opacity: .6;
+    transform: scale(1.1);
+  }
+  90%{
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media screen and (min-width:530px){
+  .products-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .user-info__buttons{
+    flex-basis: auto;
+    flex-direction: column;
+    justify-content: start;
+  }
+  .button{
+    font-size: .8rem;
+    flex-basis: auto;
+  }
+
+}
+
+@media screen and (min-width:756px){
+  .products-grid{
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .modal-confirmation__buttons{
+
+    justify-content: space-evenly;
+  }
+}

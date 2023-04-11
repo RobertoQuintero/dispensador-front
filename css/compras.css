@@ -1,0 +1,30 @@
+.sales-container{
+  margin: 0 auto;
+  max-width: 1000px;
+}
+.sales-item{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  color: #9b59b6;
+  font-size: .8rem;
+}
+.sales-item::before{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background-color: #9b59b6;
+  bottom: 0;
+ 
+}
+.sales-item__name{
+  flex-basis: 50%;
+}
+@media screen and (min-width:400px){
+  .sales-item{
+    font-size: 1rem;
+  }
+  
+}
