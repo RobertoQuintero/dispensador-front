@@ -183,6 +183,7 @@ body{
 
 .modal-confirmation__name{
   text-align: center;
+  font-size: .9rem;
 }
 .modal-confirmation__price{
   font-size: 1.5rem;

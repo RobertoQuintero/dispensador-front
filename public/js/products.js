@@ -8,38 +8,16 @@ const date = document.querySelector(".date");
 date.innerHTML = `${new Date().getDate()} - ${
   new Date().getMonth() + 1
 } - ${new Date().getFullYear()}`;
-const data = [
-  {
-    id: "1",
-    nombre: "Libreta de rayas 100 hojas",
-    precio: 50,
-    existencia: 5,
-    img: "https://cdn10.totalcode.net/normamx/product-image/es/cuaderno-argollado-profesional-cuadro-chico-norma-azul-100-hojas-1.webp",
-  },
-  {
-    id: "2",
-    nombre: "Lapicero bic color negro x 3",
-    precio: 20,
-    existencia: 10,
-    img: "https://e4d4ed17ba.cbaul-cdnwnd.com/b03aca64114da88668ea2588c9613b77/200000010-a2f6ea3ec5/lapice.JPG?ph=e4d4ed17ba",
-  },
-  {
-    id: "3",
-    nombre: "Cinta Bic Correctora Wocc-6 Caja C/6",
-    precio: 249,
-    existencia: 0,
-    img: "https://http2.mlstatic.com/D_NQ_NP_736534-MLM45729934556_042021-O.webp",
-  },
-];
+let data = [];
 
 //Construcion del DOM
 const dibujarProducto = (producto) => {
-  const { id, nombre, img, precio, existencia } = producto;
+  const { id, name, img, price, quantity } = producto;
 
   return `
   <div id="${id}" class="products-grid__item card">
     <span class="products-grid__item-price">${
-      existencia ? `$${precio}` : "Agotado"
+      quantity ? `$${price}` : "Agotado"
     }</span>
     <div class="products-grid__item-img"
         style="
@@ -47,21 +25,21 @@ const dibujarProducto = (producto) => {
         background-size: cover;
       "></div>
     <div class="products-grid__item-description">
-      <p class="products-grid__item-name">${nombre}</p>
-      <p class="products-grid__item-exist">Quedan: ${existencia}</p>
+      <p class="products-grid__item-name">${name}</p>
+      <p class="products-grid__item-exist">Quedan: ${quantity}</p>
     </div>
   </div>
   `;
 };
 
 const dibujarModal = (product) => {
-  const { nombre, precio, img, existencia, id } = product;
+  const { name, price, img, quantity, id } = product;
   modal.innerHTML = `
     <div class='modal-background'>
       <div class='modal-confirmation'>
       <div class='modal-confirmation__description'>
           <p class='modal-confirmation__title'>
-            ${existencia ? "Confirme su compra" : "Producto agotado"}
+            ${quantity ? "Confirme su compra" : "Producto agotado"}
           </p>
           <div class='modal-confirmation__img'
                 style="
@@ -70,11 +48,11 @@ const dibujarModal = (product) => {
                 background-position: center;
                 "
           ></div>
-          <p class='modal-confirmation__name'>${nombre}</p>
-          <p class='modal-confirmation__price'>$${precio}</p>
+          <p class='modal-confirmation__name'>${name}</p>
+          <p class='modal-confirmation__price'>$${price}</p>
         </div>
         <div class='modal-confirmation__buttons'>
-        <button id='aceptar' class='button morado' ${!existencia && `disabled`}>
+        <button id='aceptar' class='button morado' ${!quantity && `disabled`}>
           Aceptar
         </button>
         <button class='modal-button button cancelar'>
@@ -94,8 +72,10 @@ grid.addEventListener("click", (e) => {
     e.target.getAttribute("id") ||
     e.target.parentNode.getAttribute("id") ||
     e.target.parentNode.parentNode.getAttribute("id");
-  if (!data[id - 1]) return;
-  dibujarModal(data[id - 1]);
+
+  const product = data.filter((product) => id === product.id)[0];
+  if (!product) return;
+  dibujarModal(product);
 });
 
 modal.addEventListener("click", (e) => {
@@ -119,7 +99,7 @@ modal.addEventListener("click", (e) => {
 
 salir.addEventListener("click", (e) => {
   e.preventDefault();
-  window.location = "index.html";
+  window.location = "/";
 });
 
 compras.addEventListener("click", (e) => {
@@ -134,7 +114,16 @@ const dibujaGrid = (data) => {
   grid.innerHTML = htmlElement;
 };
 
-const main = () => {
+const getProducts = async () => {
+  const resp = await (
+    await fetch("http://localhost:8080/api/productos")
+  ).json();
+
+  return resp;
+};
+
+const main = async () => {
+  data = await getProducts();
   dibujaGrid(data);
 };
 

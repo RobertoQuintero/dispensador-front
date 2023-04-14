@@ -1,0 +1,54 @@
+###
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email":"test@test.com",
+  "password":"123456"
+}
+
+###
+POST http://localhost:8080/api/usuarios
+Content-Type: application/json
+
+{
+  "name":"Arely Herrera",
+  "email":"arely@test.com",
+  "password":"123456",
+  "ctrlnum":"156P0145",
+  "rol":"ADMIN_ROLE"
+}
+
+###
+GET http://localhost:8080/api/usuarios
+
+###
+POST http://localhost:8080/api/productos
+Content-Type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDM4NjQ1ZDcyOTMwMThiYzM5OWU5ZjgiLCJpYXQiOjE2ODE0MTgzNDQsImV4cCI6MTY4MTQzMjc0NH0.MZjSlkIW0ykTD8FMz5M97qV_rcM_q1MvCRmJtdtJc7k
+
+{
+    "name": "Lapicero bic black green red x 3",
+    "price_stripe": "price_1MwX9YJpiZLicIeYhEU9ygg4",
+    "price": 25,
+    "quantity": 3,
+    "img": "https://e4d4ed17ba.cbaul-cdnwnd.com/b03aca64114da88668ea2588c9613b77/200000010-a2f6ea3ec5/lapice.JPG?ph=e4d4ed17ba"
+}
+
+###
+GET http://localhost:8080/api/productos
+
+
+###
+GET http://localhost:8080/api/compras/6438645d7293018bc399e9f8
+
+
+###
+POST http://localhost:8080/api/compras
+Content-Type: application/json
+
+{
+  "user":"6438645d7293018bc399e9f8",
+  "total":50,
+  "product":"64386df4e78c00554d4195aa"
+}
