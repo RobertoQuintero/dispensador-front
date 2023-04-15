@@ -16,6 +16,7 @@ class Server {
       productos: "/api/productos",
       usuarios: "/api/usuarios",
       compras: "/api/compras",
+      screens: "/",
     };
 
     // Conectar a base de datos
@@ -47,6 +48,7 @@ class Server {
   }
 
   routes() {
+    // this.app.use(this.paths.screens, require("../routes/screens"));
     this.app.use(this.paths.auth, require("../routes/auth"));
     this.app.use(this.paths.productos, require("../routes/products"));
     this.app.use(this.paths.usuarios, require("../routes/users"));

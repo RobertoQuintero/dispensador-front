@@ -21,6 +21,8 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/usuarios
+###
+GET http://localhost:8080/api/usuarios/6438645d7293018bc399e9f8
 
 ###
 POST http://localhost:8080/api/productos

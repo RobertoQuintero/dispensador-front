@@ -1,0 +1,12 @@
+.container-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container-center h2{
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: #9b59b6;
+}

@@ -13,6 +13,25 @@ html{
   width: 100vw;
   font-family: 'Montserrat Alternates', sans-serif;
 }
+/* #reader{
+  position: fixed;
+  z-index: 1000;
+} */
+.container-salir{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+}
+#salir{
+  display: none;
+  width: 200px;
+  animation: aparecer 1s 1s ease-in backwards;
+}
+.show{
+  display: block;
+}
 .full-container{
   height: 100%;
   width: 100%;
@@ -83,3 +102,15 @@ html{
   font-family: 'Montserrat Alternates', sans-serif;
 }
 
+
+@keyframes aparecer {
+  0% {
+    opacity: 0;
+  }
+  50%{
+    opacity: .2;
+  }
+  90%{
+    opacity: 1;
+  }
+}

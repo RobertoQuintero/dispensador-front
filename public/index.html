@@ -12,13 +12,25 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.7/html5-qrcode.min.js"
+      integrity="sha512-dH3HFLqbLJ4o/3CFGVkn1lrppE300cfrUiD2vzggDAtJKiCClLKjJEa7wBcx7Czu04Xzgf3jMRvSwjVTYtzxEA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body>
+    <div id="reader"></div>
+    <div class="container-salir">
+      <button type="submit" class="login-register__form-button" id="salir">
+        Salir
+      </button>
+    </div>
     <div class="full-container">
       <div class="card">
         <form class="login-register__form">
           <h2 class="title">Bienvenido</h2>
-          <input
+          <!-- <input
             type="email"
             class="login-register__form-input"
             placeholder="usuario"
@@ -29,14 +41,15 @@
             class="login-register__form-input"
             placeholder="password"
             id="password"
-          />
+          /> -->
           <button type="submit" class="login-register__form-button">
-            Ingresar
+            Escanear QR
           </button>
           <!-- <a href="products.html">productos</a> -->
         </form>
       </div>
     </div>
+
     <script src="js/auth.js"></script>
   </body>
 </html>

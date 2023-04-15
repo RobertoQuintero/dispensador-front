@@ -99,6 +99,7 @@ modal.addEventListener("click", (e) => {
 
 salir.addEventListener("click", (e) => {
   e.preventDefault();
+  localStorage.removeItem("user");
   window.location = "/";
 });
 
@@ -123,6 +124,17 @@ const getProducts = async () => {
 };
 
 const main = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) window.location = "index.html";
+
+  const ctrlnum = document.querySelector("#ctrlnum");
+  const name = document.querySelector("#name");
+  const credit = document.querySelector("#credit");
+
+  ctrlnum.innerHTML = user.ctrlnum;
+  name.innerHTML = user.name;
+  credit.innerHTML = `$${user.credit}`;
   data = await getProducts();
   dibujaGrid(data);
 };

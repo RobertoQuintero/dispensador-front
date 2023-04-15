@@ -18,6 +18,24 @@ const usuariosGet = async (req = request, res = response) => {
   });
 };
 
+const getUsuarioById = async (req = request, res = response) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+
+    res.json({
+      ok: true,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      ok: false,
+      msg: "usuario no encontrado",
+    });
+  }
+};
+
 const usuariosPost = async (req, res = response) => {
   try {
     const { name, email, password, rol, ctrlnum } = req.body;
@@ -69,4 +87,5 @@ module.exports = {
   usuariosPost,
   usuariosPut,
   usuariosDelete,
+  getUsuarioById,
 };
