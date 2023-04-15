@@ -24,7 +24,7 @@ html{
   
 
 }
-#salir{
+#salir-login{
   display: none;
   width: 200px;
   animation: aparecer 1s 1s ease-in backwards;

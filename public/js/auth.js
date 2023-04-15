@@ -1,7 +1,7 @@
 const form = document.querySelector(".login-register__form");
 const container = document.querySelector(".full-container");
 const html5QrCode = new Html5Qrcode(/* element id */ "reader");
-const salir = document.querySelector("#salir");
+const salir = document.querySelector("#salir-login");
 localStorage.removeItem("user");
 const goBack = () => {
   salir.style.display = "none";
@@ -28,6 +28,7 @@ form.addEventListener("submit", (e) => {
               qrbox: { width: 250, height: 250 }, // Optional, if you want bounded box UI
             },
             (result) => {
+              salir.style.display = "none";
               html5QrCode.stop();
               window.location = result;
             },

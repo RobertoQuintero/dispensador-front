@@ -15,13 +15,13 @@ const getPurchasesByUser = async (req, res) => {
     })
       .populate("product", "price name")
       .sort({ createdAt: "desc" })
-      .limit(30);
+      .limit(15);
 
     const newPurchases = purchases.map((purchase) => {
       const { product, createdAt, quantity } = purchase;
       return {
         name: product.name,
-        price: product.price,
+        total: product.price,
         createdAt,
         quantity,
       };
