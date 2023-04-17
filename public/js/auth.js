@@ -2,7 +2,14 @@ const form = document.querySelector(".login-register__form");
 const container = document.querySelector(".full-container");
 const html5QrCode = new Html5Qrcode(/* element id */ "reader");
 const salir = document.querySelector("#salir-login");
-localStorage.removeItem("user");
+
+const removeLocalStorage = () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("product");
+  localStorage.removeItem("products");
+  localStorage.removeItem("compras");
+};
+
 const goBack = () => {
   salir.style.display = "none";
   html5QrCode.stop();
@@ -48,3 +55,9 @@ form.addEventListener("submit", (e) => {
 salir.addEventListener("click", (e) => {
   goBack();
 });
+
+const main = () => {
+  removeLocalStorage();
+};
+
+main();

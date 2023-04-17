@@ -8,6 +8,8 @@ const ctrlnum = document.querySelector("#ctrlnum");
 const name = document.querySelector("#name");
 const credit = document.querySelector("#credit");
 
+const socket = io();
+
 const date = document.querySelector(".date");
 
 const today = new Date(new Date());
@@ -15,6 +17,16 @@ const today = new Date(new Date());
 date.innerHTML = `${today.getDate()} - ${
   today.getMonth() + 1
 } - ${today.getFullYear()}`;
+
+//local storage
+const getLocalStorage = () => {
+  return {
+    products: JSON.parse(localStorage.getItem("products")),
+    user: JSON.parse(localStorage.getItem("user")),
+    product: JSON.parse(localStorage.getItem("product")),
+    purchases: JSON.parse(localStorage.getItem("compras")),
+  };
+};
 
 //Construcion del DOM
 const dibujarProducto = (producto) => {
@@ -77,7 +89,7 @@ const dibujarModal = (product) => {
 
 grid.addEventListener("click", (e) => {
   e.preventDefault();
-  const products = JSON.parse(localStorage.getItem("products"));
+  const { products, user } = getLocalStorage();
   const id =
     e.target.getAttribute("id") ||
     e.target.parentNode.getAttribute("id") ||
@@ -85,6 +97,7 @@ grid.addEventListener("click", (e) => {
 
   const product = products.filter((product) => id === product.id)[0];
   if (!product) return;
+  if (user.credit < product.price) return alert("Crédito insuficiente");
   localStorage.setItem("product", JSON.stringify(product));
   dibujarModal(product);
 });
@@ -129,8 +142,7 @@ const dibujaGrid = (data) => {
 //peticiones a base de datos
 
 const procesaCompra = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const product = JSON.parse(localStorage.getItem("product"));
+  const { products, user, product, purchases } = getLocalStorage();
 
   const [respCompra, respUsuario, respProducto] = await Promise.all([
     realizaCompra(user, product),
@@ -141,14 +153,15 @@ const procesaCompra = async () => {
   if (!respCompra.ok || !respUsuario.ok || !respProducto.ok) {
     alert("Error al ejecutar la compra");
   } else {
+    socket.emit("mover-motor", "llama función para hacer mover motor");
     //actualiza compra en el storage
+    alert("Compra exitosa");
     const purchaseLocal = {
       name: product.name,
       total: product.price,
       quantity: 1,
       createdAt: respCompra.purchase.createdAt,
     };
-    const purchases = JSON.parse(localStorage.getItem("compras"));
     if (purchases) {
       purchases.unshift(purchaseLocal);
       localStorage.setItem("compras", JSON.stringify(purchases));
@@ -161,7 +174,6 @@ const procesaCompra = async () => {
     credit.innerHTML = `$${user.credit}`;
 
     //actualiza cantidad de producto
-    const products = JSON.parse(localStorage.getItem("products"));
     const newProducts = products.map((p) => {
       if (p.id === product.id) {
         p.quantity = p.quantity - 1;
@@ -230,7 +242,6 @@ const actualizarProducto = async (product) => {
 };
 
 const getProducts = async () => {
-  console.log("getproducts");
   const resp = await (
     await fetch("http://localhost:8080/api/productos")
   ).json();
@@ -238,9 +249,23 @@ const getProducts = async () => {
   return resp;
 };
 
+const conectarSocket = () => {
+  // socket.on("connect", () => {
+  //   console.log("conectado");
+  // });
+
+  socket.on("disconnect", () => {
+    console.log("desconectado");
+  });
+
+  socket.on("movio-motor", (msg) => {
+    console.log("movió-motor: " + msg);
+  });
+};
+
 const main = async () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const products = JSON.parse(localStorage.getItem("products"));
+  conectarSocket();
+  const { products, user } = getLocalStorage();
 
   ctrlnum.innerHTML = user.ctrlnum;
   name.innerHTML = user.name;
