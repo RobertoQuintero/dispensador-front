@@ -2,7 +2,7 @@ const form = document.querySelector(".login-register__form");
 const container = document.querySelector(".full-container");
 const html5QrCode = new Html5Qrcode(/* element id */ "reader");
 const salir = document.querySelector("#salir-login");
-
+const baseUrl = "https://dispensador-front-production.up.railway.app";
 const removeLocalStorage = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("product");
@@ -37,7 +37,8 @@ form.addEventListener("submit", (e) => {
             (result) => {
               salir.style.display = "none";
               html5QrCode.stop();
-              window.location = result;
+              console.log(result.split("0/")[1]);
+              window.location = `${baseUrl}/${result.split("0/")[1]}`;
             },
             (errorMessage) => {
               console.log(errorMessage);

@@ -7,6 +7,7 @@ const compras = document.querySelector("#compras");
 const ctrlnum = document.querySelector("#ctrlnum");
 const name = document.querySelector("#name");
 const credit = document.querySelector("#credit");
+const baseUrl = "https://dispensador-front-production.up.railway.app";
 
 const socket = io();
 
@@ -195,7 +196,7 @@ const realizaCompra = async (user, product) => {
   };
 
   const resp = await (
-    await fetch("http://localhost:8080/api/compras", {
+    await fetch(`${baseUrl}/api/compras`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -213,7 +214,7 @@ const actualizaUsuario = async (user, product) => {
   };
 
   const resp = await (
-    await fetch(`http://localhost:8080/api/usuarios/${user.uid}`, {
+    await fetch(`${baseUrl}/api/usuarios/${user.uid}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -230,7 +231,7 @@ const actualizarProducto = async (product) => {
   };
 
   const resp = await (
-    await fetch(`http://localhost:8080/api/productos/${product.id}`, {
+    await fetch(`${baseUrl}/api/productos/${product.id}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -242,9 +243,7 @@ const actualizarProducto = async (product) => {
 };
 
 const getProducts = async () => {
-  const resp = await (
-    await fetch("http://localhost:8080/api/productos")
-  ).json();
+  const resp = await (await fetch(`${baseUrl}/api/productos`)).json();
   localStorage.setItem("products", JSON.stringify(resp));
   return resp;
 };

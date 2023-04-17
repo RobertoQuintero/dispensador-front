@@ -2,6 +2,7 @@ const salir = document.querySelector("#salir");
 const productos = document.querySelector("#productos");
 const date = document.querySelector(".date");
 const container = document.querySelector(".sales-container");
+const baseUrl = "https://dispensador-front-production.up.railway.app";
 
 //html elements
 const ctrlnum = document.querySelector("#ctrlnum");
@@ -47,9 +48,7 @@ const dibujaLista = (data) => {
 };
 
 const getPurchases = async () => {
-  const resp = await (
-    await fetch(`http://localhost:8080/api/compras/${user.uid}`)
-  ).json();
+  const resp = await (await fetch(`${baseUrl}/api/compras/${user.uid}`)).json();
   if (!resp.ok) {
     console.log(resp.msg);
     return;

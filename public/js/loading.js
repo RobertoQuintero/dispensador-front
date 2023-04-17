@@ -1,14 +1,14 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const text = document.querySelector("#text");
+// const baseUrl='http://localhost:8080/api/usuarios'
+const baseUrl = "https://dispensador-front-production.up.railway.app";
 
 const id = urlParams.get("id");
 
 const getUser = async () => {
   try {
-    const resp = await (
-      await fetch(`http://localhost:8080/api/usuarios/${id}`)
-    ).json();
+    const resp = await (await fetch(`${baseUrl}/api/usuarios/${id}`)).json();
     const { ok, msg, user } = resp;
 
     if (ok) {
