@@ -3,12 +3,18 @@ const modal = document.querySelector(".modal");
 const aceptar = document.querySelector("#aceptar");
 const salir = document.querySelector("#salir");
 const compras = document.querySelector("#compras");
+
+const ctrlnum = document.querySelector("#ctrlnum");
+const name = document.querySelector("#name");
+const credit = document.querySelector("#credit");
+
 const date = document.querySelector(".date");
 
-date.innerHTML = `${new Date().getDate()} - ${
-  new Date().getMonth() + 1
-} - ${new Date().getFullYear()}`;
-let data = [];
+const today = new Date(new Date());
+
+date.innerHTML = `${today.getDate()} - ${
+  today.getMonth() + 1
+} - ${today.getFullYear()}`;
 
 //Construcion del DOM
 const dibujarProducto = (producto) => {
@@ -71,12 +77,13 @@ const dibujarModal = (product) => {
 
 grid.addEventListener("click", (e) => {
   e.preventDefault();
+  const products = JSON.parse(localStorage.getItem("products"));
   const id =
     e.target.getAttribute("id") ||
     e.target.parentNode.getAttribute("id") ||
     e.target.parentNode.parentNode.getAttribute("id");
 
-  const product = data.filter((product) => id === product.id)[0];
+  const product = products.filter((product) => id === product.id)[0];
   if (!product) return;
   localStorage.setItem("product", JSON.stringify(product));
   dibujarModal(product);
@@ -93,41 +100,8 @@ modal.addEventListener("click", async (e) => {
   }
   if (element.getAttribute("id") === "aceptar") {
     element.disabled = true;
-    const user = JSON.parse(localStorage.getItem("user"));
-    const product = JSON.parse(localStorage.getItem("product"));
-    const purchase = {
-      user: user.uid,
-      product: product.id,
-      quantity: 1,
-      total: product.price,
-    };
-
-    const resp = await (
-      await fetch("http://localhost:8080/api/compras", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(purchase),
-      })
-    ).json();
-
-    if (!resp.ok) {
-      alert("Error al ejecutar la compra");
-    } else {
-      console.log(resp.purchase);
-      const purchase = {
-        name: product.name,
-        total: product.price,
-        quantity: 1,
-        createdAt: resp.purchase.createdAt,
-      };
-      const purchases = JSON.parse(localStorage.getItem("compras"));
-      purchases.unshift(purchase);
-      localStorage.setItem("compras", JSON.stringify(purchases));
-    }
+    await procesaCompra();
     modal.innerHTML = "";
-    console.log(resp);
   }
 });
 
@@ -152,6 +126,109 @@ const dibujaGrid = (data) => {
   grid.innerHTML = htmlElement;
 };
 
+//peticiones a base de datos
+
+const procesaCompra = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const product = JSON.parse(localStorage.getItem("product"));
+
+  const [respCompra, respUsuario, respProducto] = await Promise.all([
+    realizaCompra(user, product),
+    actualizaUsuario(user, product),
+    actualizarProducto(product),
+  ]);
+
+  if (!respCompra.ok || !respUsuario.ok || !respProducto.ok) {
+    alert("Error al ejecutar la compra");
+  } else {
+    //actualiza compra en el storage
+    const purchaseLocal = {
+      name: product.name,
+      total: product.price,
+      quantity: 1,
+      createdAt: respCompra.purchase.createdAt,
+    };
+    const purchases = JSON.parse(localStorage.getItem("compras"));
+    if (purchases) {
+      purchases.unshift(purchaseLocal);
+      localStorage.setItem("compras", JSON.stringify(purchases));
+    }
+
+    //actuliza usuario en el storage
+    user.credit = respUsuario.usuario.credit;
+    user.counter = respUsuario.usuario.counter;
+    localStorage.setItem("user", JSON.stringify(user));
+    credit.innerHTML = `$${user.credit}`;
+
+    //actualiza cantidad de producto
+    const products = JSON.parse(localStorage.getItem("products"));
+    const newProducts = products.map((p) => {
+      if (p.id === product.id) {
+        p.quantity = p.quantity - 1;
+        return p;
+      }
+      return p;
+    });
+    localStorage.setItem("products", JSON.stringify(newProducts));
+    dibujaGrid(newProducts);
+  }
+};
+
+const realizaCompra = async (user, product) => {
+  const purchase = {
+    user: user.uid,
+    product: product.id,
+    quantity: 1,
+    total: product.price,
+  };
+
+  const resp = await (
+    await fetch("http://localhost:8080/api/compras", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(purchase),
+    })
+  ).json();
+  return resp;
+};
+
+const actualizaUsuario = async (user, product) => {
+  const newUser = {
+    credit: user.credit - product.price,
+    counter: user.counter + 1,
+  };
+
+  const resp = await (
+    await fetch(`http://localhost:8080/api/usuarios/${user.uid}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(newUser),
+    })
+  ).json();
+  return resp;
+};
+
+const actualizarProducto = async (product) => {
+  const newQuantity = {
+    quantity: product.quantity - 1,
+  };
+
+  const resp = await (
+    await fetch(`http://localhost:8080/api/productos/${product.id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(newQuantity),
+    })
+  ).json();
+  return resp;
+};
+
 const getProducts = async () => {
   console.log("getproducts");
   const resp = await (
@@ -164,6 +241,11 @@ const getProducts = async () => {
 const main = async () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const products = JSON.parse(localStorage.getItem("products"));
+
+  ctrlnum.innerHTML = user.ctrlnum;
+  name.innerHTML = user.name;
+  credit.innerHTML = `$${user.credit}`;
+
   if (!user) window.location = "index.html";
   if (!products) {
     data = await getProducts();
@@ -172,14 +254,6 @@ const main = async () => {
     data = products;
     dibujaGrid(data);
   }
-
-  const ctrlnum = document.querySelector("#ctrlnum");
-  const name = document.querySelector("#name");
-  const credit = document.querySelector("#credit");
-
-  ctrlnum.innerHTML = user.ctrlnum;
-  name.innerHTML = user.name;
-  credit.innerHTML = `$${user.credit}`;
 };
 
 main();

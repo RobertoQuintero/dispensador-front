@@ -51,15 +51,24 @@ const actualizarProducto = async (req, res = response) => {
   const { id } = req.params;
   const { status, usuario, ...data } = req.body;
 
-  if (data.name) {
-    data.name = data.name.toUpperCase();
+  try {
+    if (data.name) {
+      data.name = data.name.toUpperCase();
+    }
+    // data.usuario = req.usuario._id;
+    const producto = await Product.findByIdAndUpdate(id, data, { new: true });
+
+    res.json({
+      ok: true,
+      producto,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({
+      ok: false,
+      msg: "Error al actualizar el producto",
+    });
   }
-
-  data.usuario = req.usuario._id;
-
-  const producto = await Product.findByIdAndUpdate(id, data, { new: true });
-
-  res.json(producto);
 };
 
 const borrarProducto = async (req, res = response) => {

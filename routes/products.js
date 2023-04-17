@@ -49,7 +49,11 @@ router.post(
 // Actualizar - privado - cualquiera con token válido
 router.put(
   "/:id",
-  [validarJWT, check("id").custom(existeProductoPorId), validarCampos],
+  [
+    // validarJWT,
+    check("id").custom(existeProductoPorId),
+    validarCampos,
+  ],
   actualizarProducto
 );
 

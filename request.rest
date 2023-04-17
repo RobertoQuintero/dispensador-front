@@ -21,8 +21,18 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/usuarios
+
 ###
 GET http://localhost:8080/api/usuarios/6438645d7293018bc399e9f8
+
+###
+PUT http://localhost:8080/api/usuarios/6438610038bebd1f4100a1ca
+Content-Type: application/json
+
+{
+  "counter":0,
+  "credit":900
+}
 
 ###
 POST http://localhost:8080/api/productos
@@ -35,6 +45,15 @@ x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDM4NjQ1ZDcyOTMwMThiYz
     "price": 25,
     "quantity": 3,
     "img": "https://e4d4ed17ba.cbaul-cdnwnd.com/b03aca64114da88668ea2588c9613b77/200000010-a2f6ea3ec5/lapice.JPG?ph=e4d4ed17ba"
+}
+###
+PUT http://localhost:8080/api/productos/64386c6ff980cacbebdfa6ea
+Content-Type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDM4NjEwMDM4YmViZDFmNDEwMGExY2EiLCJpYXQiOjE2ODE2OTExODksImV4cCI6MTY4MTcwNTU4OX0.gms9Rz_PiXMTqs71_N3FW7FYZbC6wWTGvOnAT7McITE
+
+{
+    "quantity": 2
+    
 }
 
 ###

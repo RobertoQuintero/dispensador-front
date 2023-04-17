@@ -64,15 +64,28 @@ const usuariosPut = async (req, res = response) => {
   const { id } = req.params;
   const { _id, password, google, correo, ...resto } = req.body;
 
-  if (password) {
-    // Encriptar la contraseña
-    const salt = bcryptjs.genSaltSync();
-    resto.password = bcryptjs.hashSync(password, salt);
+  try {
+    if (password) {
+      // Encriptar la contraseña
+      const salt = bcryptjs.genSaltSync();
+      resto.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const usuario = await User.findByIdAndUpdate(id, resto);
+    usuario.counter = resto.counter;
+    usuario.credit = resto.credit;
+    console.log(resto);
+    res.json({
+      ok: true,
+      usuario,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({
+      ok: false,
+      msg: "Error al actualizar usuario hable con el administrador",
+    });
   }
-
-  const usuario = await User.findByIdAndUpdate(id, resto);
-
-  res.json(usuario);
 };
 
 const usuariosDelete = async (req, res = response) => {

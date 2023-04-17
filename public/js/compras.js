@@ -11,9 +11,11 @@ const credit = document.querySelector("#credit");
 const user = JSON.parse(localStorage.getItem("user"));
 if (!user) window.location = "index.html";
 
-date.innerHTML = `${new Date().getDate()} - ${
-  new Date().getMonth() + 1
-} - ${new Date().getFullYear()}`;
+const today = new Date(new Date());
+
+date.innerHTML = `${today.getDate()} - ${
+  today.getMonth() + 1
+} - ${today.getFullYear()}`;
 
 const dibujarCompra = (product) => {
   const { name, total, createdAt } = product;
@@ -23,7 +25,7 @@ const dibujarCompra = (product) => {
   <div class="sales-item">
     <p class="sales-item__name">${name}</p>
     <p class="sales-item__price">$${total}</p>
-    <p class="sales-item__date">${date.getDay()} - ${
+    <p class="sales-item__date">${date.getDate()} - ${
     date.getMonth() + 1
   } - ${date.getFullYear()}</p>
   </div>
@@ -31,7 +33,6 @@ const dibujarCompra = (product) => {
 };
 
 const dibujaLista = (data) => {
-  console.log(data);
   let htmlElement = "";
   if (data.length !== 0) {
     data.forEach((element) => {
@@ -46,7 +47,6 @@ const dibujaLista = (data) => {
 };
 
 const getPurchases = async () => {
-  console.log("getpurchases");
   const resp = await (
     await fetch(`http://localhost:8080/api/compras/${user.uid}`)
   ).json();
