@@ -2,7 +2,8 @@ const form = document.querySelector(".login-register__form");
 const container = document.querySelector(".full-container");
 const html5QrCode = new Html5Qrcode(/* element id */ "reader");
 const salir = document.querySelector("#salir-login");
-const baseUrl = "https://dispensador-front-production.up.railway.app";
+// const baseUrl = "https://dispensador-front-production.up.railway.app";
+const baseUrl = "http://localhost:8080";
 const removeLocalStorage = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("product");

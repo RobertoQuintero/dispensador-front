@@ -2,7 +2,8 @@ const salir = document.querySelector("#salir");
 const productos = document.querySelector("#productos");
 const date = document.querySelector(".date");
 const container = document.querySelector(".sales-container");
-const baseUrl = "https://dispensador-front-production.up.railway.app";
+// const baseUrl = "https://dispensador-front-production.up.railway.app";
+const baseUrl = "http://localhost:8080";
 
 //html elements
 const ctrlnum = document.querySelector("#ctrlnum");

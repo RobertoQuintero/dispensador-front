@@ -7,7 +7,8 @@ const compras = document.querySelector("#compras");
 const ctrlnum = document.querySelector("#ctrlnum");
 const name = document.querySelector("#name");
 const credit = document.querySelector("#credit");
-const baseUrl = "https://dispensador-front-production.up.railway.app";
+// const baseUrl = "https://dispensador-front-production.up.railway.app";
+const baseUrl = "http://localhost:8080";
 
 const socket = io();
 

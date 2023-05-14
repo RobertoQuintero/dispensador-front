@@ -2,7 +2,8 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const text = document.querySelector("#text");
 // const baseUrl='http://localhost:8080/api/usuarios'
-const baseUrl = "https://dispensador-front-production.up.railway.app";
+// const baseUrl = "https://dispensador-front-production.up.railway.app";
+const baseUrl = "http://localhost:8080";
 
 const id = urlParams.get("id");
 
