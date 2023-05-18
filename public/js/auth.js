@@ -36,10 +36,10 @@ form.addEventListener("submit", (e) => {
               qrbox: { width: 250, height: 250 }, // Optional, if you want bounded box UI
             },
             (result) => {
+              console.log(result);
               salir.style.display = "none";
               html5QrCode.stop();
-              console.log(result.split("0/")[1]);
-              window.location = `${baseUrl}/${result.split("0/")[1]}`;
+              window.location = `${baseUrl}/loading.html?id=${result}`;
             },
             (errorMessage) => {
               console.log(errorMessage);

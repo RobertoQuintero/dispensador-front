@@ -12,11 +12,12 @@ POST http://localhost:8080/api/usuarios
 Content-Type: application/json
 
 {
-  "name":"Arely Herrera",
-  "email":"arely@test.com",
+  "name":"Roberto Quintero",
+  "email":"roberto@test.com",
   "password":"123456",
-  "ctrlnum":"156P0145",
-  "rol":"ADMIN_ROLE"
+  "ctrlnum":"156P02345",
+  "rol":"USER_ROLE",
+  "credit":50
 }
 
 ###

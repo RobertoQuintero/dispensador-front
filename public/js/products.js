@@ -155,7 +155,7 @@ const procesaCompra = async () => {
   if (!respCompra.ok || !respUsuario.ok || !respProducto.ok) {
     alert("Error al ejecutar la compra");
   } else {
-    socket.emit("mover-motor", "llama función para hacer mover motor");
+    socket.emit(product.id, product.name);
     //actualiza compra en el storage
     alert("Compra exitosa");
     const purchaseLocal = {
